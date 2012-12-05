@@ -9,6 +9,7 @@ import javax.swing.*;
 
 public class FenetreConnexion extends JFrame implements ActionListener {
 	private JButton connexion;
+	private JButton quitter;
 	private JLabel titre;
 	private JLabel login;
 	private JLabel mdp;
@@ -40,18 +41,19 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 
 	public FenetreConnexion(){
 		this.connexion = new JButton("connexion");
+		this.quitter = new JButton("Quitter l'application");
 		this.titre = new JLabel("Connexion");
 		titre.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		this.login = new JLabel("Login");
 		this.mdp = new JLabel("Mot de passe");
+		
 		this.panel = new JPanel();
 		this.pSaisie = new JPanel();
 		this.pConnexion = new JPanel();
+		
 		this.tfLogin = new JTextField();
 		this.tfMdp = new JTextField();
-	//	this.error = new JOptionPane();
-	//	this.bravo = new JOptionPane();
 		
 		this.setTitle("Connexion");
 		this.setSize(320,240);
@@ -67,9 +69,11 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 		this.pSaisie.add(tfMdp);
 		this.panel.add(pSaisie);
 		this.pConnexion.add(connexion);
+		this.pConnexion.add(quitter);
 		this.panel.add(pConnexion);
 		
 		connexion.addActionListener(this);
+		quitter.addActionListener(this);
 		
 		this.setContentPane(panel);
 		//this.pack();
@@ -89,7 +93,7 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 				System.out.println(mdpMd5+" : mot de passe crypté");
 				
 				System.out.println("----------------------------------------");
-				System.out.println("|     Récup du login et du password     |");
+				System.out.println("|     Récup du login et du password    |");
 				System.out.println("----------------------------------------");
 								
 				ArrayList<Visiteur>lesComptables = Passerelle.chargerLesComptables();
@@ -97,9 +101,16 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 				for(Visiteur unVisiteur : lesComptables){
 					
 					if(unVisiteur.getLogin().contains(Lelogin) && unVisiteur.getMdp().contains(mdpMd5)){
-						System.out.println("Connexion établie");
-						System.out.println(Lelogin+" "+mdpMd5);
-						System.out.println(unVisiteur.getLogin()+" "+unVisiteur.getMdp());
+						String nom = unVisiteur.getNom().replace(" ", "");
+						String prenom = unVisiteur.getPrenom().replace(" ", "");
+						System.out.println(nom.length());
+						System.out.println(prenom.length());
+						JOptionPane.showMessageDialog(null, "Bienvenue "+prenom+" "+nom, "Succès de la connexion", JOptionPane.INFORMATION_MESSAGE);
+						FenetreComptable compta = new FenetreComptable(nom, prenom);
+						dispose();
+					}
+					else if(!unVisiteur.getLogin().contains(Lelogin) && !unVisiteur.getMdp().contains(mdpMd5)){
+						JOptionPane.showMessageDialog(null, "Mauvais login ou mauvais mot de passe", "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 		
@@ -111,6 +122,11 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 			catch(IndexOutOfBoundsException e1){
 				e1.printStackTrace();
 			}
+		}
+		
+		if(event.getSource() == quitter){
+			JOptionPane.showMessageDialog(null, "Au revoir", "Fermeture de l'application", JOptionPane.INFORMATION_MESSAGE);
+			dispose();
 		}
 	}
 

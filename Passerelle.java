@@ -32,8 +32,7 @@ public class Passerelle {
 		catch (SQLException erreur) { 
 			   System.out.println("Erreur SQL ! " + erreur);
 		}
-		return lesComptables;
-		
+		return lesComptables;		
 	}
 
 	public static ArrayList<Visiteur> chargerLesVisiteurs(){
@@ -56,8 +55,6 @@ public class Passerelle {
 		catch (SQLException erreur) { 
 			   System.out.println("Erreur SQL ! " + erreur);
 		}
-		return lesVisiteurs;
-		
-	
+		return lesVisiteurs;	
 	}
 }
