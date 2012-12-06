@@ -69,6 +69,11 @@ public class FenetreComptable extends JFrame implements ActionListener {
 			dispose();
 		}
 		
+		if(e.getSource() == voirFicheFrais){
+			SelectionnerVisiteur fen = new SelectionnerVisiteur(nomComptable, prenomComptable);
+			dispose();
+		}
+		
 	}
 
 }

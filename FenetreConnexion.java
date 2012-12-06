@@ -53,7 +53,7 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 		this.pConnexion = new JPanel();
 		
 		this.tfLogin = new JTextField();
-		this.tfMdp = new JTextField();
+		this.tfMdp = new JPasswordField();
 		
 		this.setTitle("Connexion");
 		this.setSize(320,240);
@@ -83,37 +83,29 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		boolean trouve= false;
 		if(event.getSource() == connexion){
 			try {
 				String Lelogin = tfLogin.getText();
 				String mdpMd5 = getEncodedPassword(tfMdp.getText());
-				System.out.println(Lelogin);
-												
-				System.out.println(tfMdp.getText()+" : mot de passe en clair");
-				System.out.println(mdpMd5+" : mot de passe crypté");
-				
-				System.out.println("----------------------------------------");
-				System.out.println("|     Récup du login et du password    |");
-				System.out.println("----------------------------------------");
 								
 				ArrayList<Visiteur>lesComptables = Passerelle.chargerLesComptables();
 
 				for(Visiteur unVisiteur : lesComptables){
 					
 					if(unVisiteur.getLogin().contains(Lelogin) && unVisiteur.getMdp().contains(mdpMd5)){
-						String nom = unVisiteur.getNom().replace(" ", "");
-						String prenom = unVisiteur.getPrenom().replace(" ", "");
-						System.out.println(nom.length());
-						System.out.println(prenom.length());
+						String nom = unVisiteur.getNom();
+						String prenom = unVisiteur.getPrenom();
 						JOptionPane.showMessageDialog(null, "Bienvenue "+prenom+" "+nom, "Succès de la connexion", JOptionPane.INFORMATION_MESSAGE);
 						FenetreComptable compta = new FenetreComptable(nom, prenom);
 						dispose();
+						trouve = true;
 					}
-					else if(!unVisiteur.getLogin().contains(Lelogin) && !unVisiteur.getMdp().contains(mdpMd5)){
-						JOptionPane.showMessageDialog(null, "Mauvais login ou mauvais mot de passe", "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
-					}
+
 				}
-		
+				if(!trouve){
+					JOptionPane.showMessageDialog(null, "Mauvais login ou mauvais mot de passe", "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+				}
 			} 
 			catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();

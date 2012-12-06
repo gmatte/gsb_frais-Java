@@ -25,6 +25,11 @@ public class Visiteur {
 		this.mdp = mdp;
 		this.typeUtilisateur = typeUtilisateur;
 	}
+	 public Visiteur(String id,String nom, String prenom){
+			this.id = id;
+			this.nom = nom;
+			this.prenom = prenom;
+	 }
 
 	public String getLogin() {
 		return login;
@@ -58,7 +63,7 @@ public class Visiteur {
 		this.prenom = prenom;
 	}
 	public String toString() {
-		return "[id = "+id+" Nom = "+nom+" Prenom = "+prenom+" type d'utilisateur :"+typeUtilisateur+"]\n"; 
+		return nom+" "+prenom; 
 	}
 	
 
