@@ -20,21 +20,25 @@ public class SelectionnerMois extends JFrame implements ActionListener {
 	private JButton valider;
 	private JButton retour;
 	
-	private String nom;
-	private String prenom;
+	private String nomComptable;
+	private String prenomComptable;
+	private String nomVisiteur;
+	private String prenomVisiteur;
 	private String idVisiteur;
 	
-	public SelectionnerMois(String idVisiteur, String nomComptable, String prenomComptable){
+	public SelectionnerMois(String idVisiteur, String nomComptable, String prenomComptable, String nomVisiteur, String prenomVisiteur){
 		this.idVisiteur = idVisiteur;
-		this.nom = nomComptable;
-		this.prenom = prenomComptable;
+		this.nomComptable = nomComptable;
+		this.prenomComptable = prenomComptable;
+		this.nomVisiteur = nomVisiteur;
+		this.prenomVisiteur = prenomVisiteur;
 		
 		panelGlobal = new JPanel();
 		panelLabel = new JPanel();
 		panelListe = new JPanel();
 		panelRetour = new JPanel();
 		
-		chooseMois = new JLabel(nomComptable+" "+prenomComptable+", veuillez sélectionner le mois pour les fiches de frais");
+		chooseMois = new JLabel(prenomComptable+" "+nomComptable+", veuillez sélectionner le mois pour les fiches de frais");
 		listeMois = new JComboBox();
 		
 		valider = new JButton("Valider");
@@ -48,7 +52,7 @@ public class SelectionnerMois extends JFrame implements ActionListener {
 			listeMois.addItem(new Mois(mois));
 		}
 		
-		this.setTitle("Choisir une période");
+		this.setTitle("Choisir une période pour les fiches frais du visiteur "+prenomVisiteur+" "+nomVisiteur);
 		this.setSize(500, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -79,7 +83,12 @@ public class SelectionnerMois extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == valider){
 			String leMois = ((Mois) listeMois.getSelectedItem()).getMois();
-			System.out.println(leMois);
+			FenetreFiche fen = new FenetreFiche(idVisiteur, leMois, nomComptable, prenomComptable, nomVisiteur, prenomVisiteur);
+		}
+		
+		if(event.getSource() == retour){
+			SelectionnerVisiteur fen = new SelectionnerVisiteur(nomComptable, prenomComptable);
+			dispose();
 		}
 	}
 

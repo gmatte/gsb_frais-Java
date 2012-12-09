@@ -2,6 +2,8 @@ package gsb_frais;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.security.*;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 	private JPanel panel;
 	private JPanel pSaisie;
 	private JPanel pConnexion;
+	private JPanel logo;
 	private JTextField tfLogin;
 	private JTextField tfMdp;
 //	private JOptionPane error;
@@ -26,7 +29,7 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 		byte[] hash = null;
 		hash = MessageDigest.getInstance("MD5").digest(uniqueKey);
 		StringBuffer hashString = new StringBuffer();
-		for ( int i = 0; i<hash.length; ++i ) {
+		for ( int i = 0; i < hash.length; i++ ) {
 			String hex = Integer.toHexString(hash[i]);
 			if ( hex.length() == 1 ) {
 				hashString.append('0');
@@ -40,43 +43,50 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 	}		
 
 	public FenetreConnexion(){
+		
 		this.connexion = new JButton("connexion");
 		this.quitter = new JButton("Quitter l'application");
 		this.titre = new JLabel("Connexion");
 		titre.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		this.login = new JLabel("Login");
-		this.mdp = new JLabel("Mot de passe");
+		this.login = new JLabel("Login : ");
+		this.login.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.mdp = new JLabel("Mot de passe : ");
+		this.mdp.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		this.panel = new JPanel();
 		this.pSaisie = new JPanel();
 		this.pConnexion = new JPanel();
 		
+		
 		this.tfLogin = new JTextField();
 		this.tfMdp = new JPasswordField();
 		
-		this.setTitle("Connexion");
-		this.setSize(320,240);
+		this.setTitle("Application Gsb_Frais");
+		this.setSize(350, 280);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
+	
 		panel.setLayout(new GridLayout(3,1,2,2));
 		pSaisie.setLayout(new GridLayout(2,2,20,20));
-		this.panel.add(titre);
+		
 		this.pSaisie.add(login);
 		this.pSaisie.add(tfLogin);
 		this.pSaisie.add(mdp);
-		this.pSaisie.add(tfMdp);
-		this.panel.add(pSaisie);
+		this.pSaisie.add(tfMdp);		
+		
 		this.pConnexion.add(connexion);
-		this.pConnexion.add(quitter);
+		this.pConnexion.add(quitter);		
+		
+		this.panel.add(titre);
+		this.panel.add(pSaisie);
 		this.panel.add(pConnexion);
 		
 		connexion.addActionListener(this);
 		quitter.addActionListener(this);
 		
 		this.setContentPane(panel);
-		//this.pack();
 		this.setVisible(true);
 	}
 

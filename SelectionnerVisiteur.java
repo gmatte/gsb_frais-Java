@@ -10,13 +10,14 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 	private JPanel panelGlobal;
 	private JPanel panelLabel;
 	private JPanel panelListe;
+	private JPanel panelRetour;
 	
 	private JLabel chooseVisiteur;
-	private JButton valider;
 	private JComboBox listeVisiteurs;
 	private JComboBox listeMois;
 	
 	private JButton retour;
+	private JButton valider;
 	
 	private String nomComptable;
 	private String prenomComptable;
@@ -28,6 +29,7 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 		panelListe = new JPanel();
 		panelGlobal = new JPanel();
 		panelLabel = new JPanel();
+		panelRetour = new JPanel();
 		chooseVisiteur = new JLabel(prenomComptable+" "+nomComptable+", veuillez choisir un visiteur : ");
 		valider = new JButton("Valider");
 		retour = new JButton("Retour");
@@ -62,9 +64,13 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 		panelListe.add(listeVisiteurs);
 		panelListe.add(valider);
 		
+		panelRetour.setLayout(new FlowLayout());
+		panelRetour.add(retour);
+		
 		panelGlobal.setLayout(new BorderLayout());
 		panelGlobal.add(panelLabel, BorderLayout.NORTH);
 		panelGlobal.add(panelListe, BorderLayout.CENTER);
+		panelGlobal.add(panelRetour, BorderLayout.SOUTH);
 		
 		this.getContentPane().add(panelGlobal);
 		
@@ -79,7 +85,14 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if(event.getSource() == valider){
 				String idVisiteur = ((Visiteur) listeVisiteurs.getSelectedItem()).getId();
-				SelectionnerMois mois = new SelectionnerMois(idVisiteur, nomComptable, prenomComptable);
+				String nomVisiteur = ((Visiteur) listeVisiteurs.getSelectedItem()).getNom();
+				String prenomVisiteur = ((Visiteur) listeVisiteurs.getSelectedItem()).getPrenom();
+				SelectionnerMois mois = new SelectionnerMois(idVisiteur, nomComptable, prenomComptable, nomVisiteur, prenomVisiteur);
+				dispose();
+			}
+			
+			if(event.getSource() == retour){
+				FenetreComptable fen = new FenetreComptable(nomComptable, prenomComptable);
 				dispose();
 			}
 			
