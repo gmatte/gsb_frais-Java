@@ -104,7 +104,6 @@ public class Passerelle {
 		       								  "AND lignefraisforfait.mois = '"+unMois+"' "+
 		       								  "ORDER BY lignefraisforfait.idfraisforfait");
 		       while(rs.next()){
-		    	   System.out.println(rs.getString("libelle_frais"));
 		    	   String idFrais = rs.getString("idfrais");
 		    	   String libelleFrais = rs.getString("libelle_frais");
 		    	   int quantite = rs.getInt("quantite");

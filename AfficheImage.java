@@ -2,7 +2,6 @@ package gsb_frais;
 
 
 import java.awt.*;
-
 import javax.swing.*;
 
 class AfficheImage extends JPanel{
