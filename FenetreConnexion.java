@@ -24,24 +24,6 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 //	private JOptionPane error;
 //	private JOptionPane bravo;
 	
-	public static String getEncodedPassword(String key) throws NoSuchAlgorithmException {
-		byte[] uniqueKey = key.getBytes();
-		byte[] hash = null;
-		hash = MessageDigest.getInstance("MD5").digest(uniqueKey);
-		StringBuffer hashString = new StringBuffer();
-		for ( int i = 0; i < hash.length; i++ ) {
-			String hex = Integer.toHexString(hash[i]);
-			if ( hex.length() == 1 ) {
-				hashString.append('0');
-				hashString.append(hex.charAt(hex.length()-1));
-			} 
-			else {
-				hashString.append(hex.substring(hex.length()-2));
-			}
-		}
-		return hashString.toString();
-	}		
-
 	public FenetreConnexion(){
 		
 		this.connexion = new JButton("connexion");
@@ -74,14 +56,17 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 		this.pSaisie.add(login);
 		this.pSaisie.add(tfLogin);
 		this.pSaisie.add(mdp);
-		this.pSaisie.add(tfMdp);		
+		this.pSaisie.add(tfMdp);
+		this.pSaisie.setBackground(Color.orange);
 		
 		this.pConnexion.add(connexion);
-		this.pConnexion.add(quitter);		
+		this.pConnexion.add(quitter);	
+		this.pConnexion.setBackground(Color.orange);
 		
 		this.panel.add(titre);
 		this.panel.add(pSaisie);
 		this.panel.add(pConnexion);
+		this.panel.setBackground(Color.orange);
 		
 		connexion.addActionListener(this);
 		quitter.addActionListener(this);
@@ -97,7 +82,7 @@ public class FenetreConnexion extends JFrame implements ActionListener {
 		if(event.getSource() == connexion){
 			try {
 				String Lelogin = tfLogin.getText();
-				String mdpMd5 = getEncodedPassword(tfMdp.getText());
+				String mdpMd5 = MD5.getEncodedPassword(tfMdp.getText());
 								
 				ArrayList<Visiteur>lesComptables = Passerelle.chargerLesComptables();
 

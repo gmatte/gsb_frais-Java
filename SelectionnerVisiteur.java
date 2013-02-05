@@ -46,9 +46,7 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 			String id = unVisiteur.getId();
 			String nom = unVisiteur.getNom();
 			String prenom = unVisiteur.getPrenom();
-			listeVisiteurs.addItem(new Visiteur(id, nom, prenom));
-			
-			
+			listeVisiteurs.addItem(new Visiteur(id, nom, prenom));		
 		}
 		
 		this.setTitle("Sélectionner un visiteur");
@@ -76,9 +74,6 @@ public class SelectionnerVisiteur extends JFrame implements ActionListener {
 		
 		this.setVisible(true);
 	}
-
-
-
 	
 
 		@Override

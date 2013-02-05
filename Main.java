@@ -1,9 +1,8 @@
 package gsb_frais;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main extends JFrame {
 

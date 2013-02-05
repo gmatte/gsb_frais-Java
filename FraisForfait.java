@@ -46,4 +46,9 @@ public class FraisForfait {
 	public String getMois() {
 		return mois;
 	}
+	
+	// à utiliser dans une boucle
+	public double calcMontantTotal(){ 
+		return quantite * montant;
+	}
 }

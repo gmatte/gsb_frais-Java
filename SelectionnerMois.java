@@ -84,6 +84,7 @@ public class SelectionnerMois extends JFrame implements ActionListener {
 		if(event.getSource() == valider){
 			String leMois = ((Mois) listeMois.getSelectedItem()).getMois();
 			FenetreFiche fen = new FenetreFiche(idVisiteur, leMois, nomComptable, prenomComptable, nomVisiteur, prenomVisiteur);
+			dispose();
 		}
 		
 		if(event.getSource() == retour){
