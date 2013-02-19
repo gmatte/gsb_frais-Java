@@ -64,6 +64,7 @@ public class FenetreFiche extends JFrame implements ActionListener {
 	private String nomVisiteur;
 	private String prenomVisiteur;
 	
+	private JComboBox listeEtatFrais = new JComboBox();
 
 	public FenetreFiche(String idVisiteur, String mois, String nomComptable, String prenomComptable, String nomVisiteur, String prenomVisiteur){
 		this.idVisiteur = idVisiteur;
@@ -84,13 +85,14 @@ public class FenetreFiche extends JFrame implements ActionListener {
 		
 		ArrayList<EtatFrais>lesEtatsFrais = Passerelle.chargerLesEtatsFrais();
 		
-		JComboBox listeEtatFrais = new JComboBox();
+		
 		
 		for(EtatFrais unEtatFrais : lesEtatsFrais){
 			listeEtatFrais.addItem(unEtatFrais.getLibelleEtat());
 		}
 		
-
+		listeEtatFrais.addActionListener(this);
+		
 		// Instanciation des panels globaux et du panel pour le bouton valider
 		panelGlobal = new JPanel();
 		panelGlobalForfait = new JPanel();
@@ -259,6 +261,10 @@ public class FenetreFiche extends JFrame implements ActionListener {
 		if(event.getSource() == retour){
 			SelectionnerMois lesMois = new SelectionnerMois(idVisiteur, nomComptable, prenomComptable, nomVisiteur, prenomVisiteur);
 			dispose();
+		}
+		
+		if(event.getSource() == listeEtatFrais){
+			System.out.println(listeEtatFrais.getSelectedItem());
 		}
 	}
 
