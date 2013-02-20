@@ -3,19 +3,20 @@ package gsb_frais;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.DefaultCellEditor;
 
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class FenetreFiche extends JFrame implements ActionListener {
 	private boolean DEBUG = false;
@@ -64,7 +65,14 @@ public class FenetreFiche extends JFrame implements ActionListener {
 	private String nomVisiteur;
 	private String prenomVisiteur;
 	
-	private JComboBox listeEtatFrais = new JComboBox();
+	private JComboBox listeEtatFraisForfait = new JComboBox();
+	private JComboBox listeEtatFraisHorsForfait = new JComboBox();
+	private JComboBox listeEtatFraisHorsClassification = new JComboBox();
+	
+	/* -------------------------------------------- */
+	private JPanel panelEtatFraisForfait;
+	private JPanel panelEtatFraisHorsClassification;
+	/* -------------------------------------------- */
 
 	public FenetreFiche(String idVisiteur, String mois, String nomComptable, String prenomComptable, String nomVisiteur, String prenomVisiteur){
 		this.idVisiteur = idVisiteur;
@@ -84,14 +92,13 @@ public class FenetreFiche extends JFrame implements ActionListener {
 		
 		
 		ArrayList<EtatFrais>lesEtatsFrais = Passerelle.chargerLesEtatsFrais();
-		
-		
-		
+				
 		for(EtatFrais unEtatFrais : lesEtatsFrais){
-			listeEtatFrais.addItem(unEtatFrais.getLibelleEtat());
+			listeEtatFraisForfait.addItem(unEtatFrais.getLibelleEtat());
+			listeEtatFraisHorsForfait.addItem(unEtatFrais.getLibelleEtat());
+			listeEtatFraisHorsClassification.addItem(unEtatFrais.getLibelleEtat());
 		}
 		
-		listeEtatFrais.addActionListener(this);
 		
 		// Instanciation des panels globaux et du panel pour le bouton valider
 		panelGlobal = new JPanel();
@@ -169,11 +176,10 @@ public class FenetreFiche extends JFrame implements ActionListener {
 			dataHorsForfait[indexHorsForfait][2] = unMontant+"";
 			dataHorsForfait[indexHorsForfait][3] = libelleEtat;
 			//dataHorsForfait[indexHorsForfait][4] = listeEtatFrais+"";
-
-			
 		}
+		
 		tableHorsForfait = new JTable(dataHorsForfait, titleHorsForfait);
-		tableHorsForfait.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(listeEtatFrais));
+		tableHorsForfait.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(listeEtatFraisHorsForfait));
 		tableHorsForfait.getTableHeader().setBackground(new Color(91, 111, 192));
 		tableHorsForfait.getTableHeader().setForeground(Color.white);
 
@@ -206,12 +212,19 @@ public class FenetreFiche extends JFrame implements ActionListener {
 		panelTableFraisForfait.add(tableFraisForfait.getTableHeader(), BorderLayout.NORTH);
 		panelTableFraisForfait.add(tableFraisForfait, BorderLayout.CENTER);
 
+		panelEtatFraisForfait = new JPanel();
+		JLabel etatFraisForfait = new JLabel(lesFraisForfait.get(0).getLibelleEtat());
+		
+		panelEtatFraisForfait.setLayout(new FlowLayout());
+		panelEtatFraisForfait.add(etatFraisForfait);
+		panelEtatFraisForfait.add(listeEtatFraisForfait);
+		
 		panelGlobalForfait.setLayout(new BorderLayout());
 		panelGlobalForfait.add(panelLabelFraisForfait, BorderLayout.NORTH);
 		panelGlobalForfait.add(panelTableFraisForfait, BorderLayout.CENTER);
-		panelGlobalForfait.add(new JLabel(lesFraisForfait.get(0).getLibelleEtat()), BorderLayout.SOUTH);
+		panelGlobalForfait.add(panelEtatFraisForfait, BorderLayout.SOUTH);
 
-		// Instanciation de l'affichage des frais forfait
+		// Instanciation de l'affichage des frais hors forfait
 		panelLabelHorsForfait.setLayout(new FlowLayout());
 		panelLabelHorsForfait.add(libelleTableHorsForfait);
 
@@ -230,11 +243,18 @@ public class FenetreFiche extends JFrame implements ActionListener {
 		panelTableHorsClassification.setLayout(new BorderLayout());
 		panelTableHorsClassification.add(tableHorsClassification.getTableHeader(), BorderLayout.NORTH);
 		panelTableHorsClassification.add(tableHorsClassification, BorderLayout.CENTER);
+		
+		panelEtatFraisHorsClassification = new JPanel();
+		JLabel etatFraisForfaitHorsClassification = new JLabel(lesHorsClassification.get(0).getLibelleEtat());
+		
+		panelEtatFraisHorsClassification.setLayout(new FlowLayout());
+		panelEtatFraisHorsClassification.add(etatFraisForfaitHorsClassification);
+		panelEtatFraisHorsClassification.add(listeEtatFraisHorsClassification);
 
 		panelGlobalHorsClassification.setLayout(new BorderLayout());
 		panelGlobalHorsClassification.add(panelLabelHorsClassification, BorderLayout.NORTH);
 		panelGlobalHorsClassification.add(panelTableHorsClassification, BorderLayout.CENTER);
-		panelGlobalHorsClassification.add(new JLabel(lesHorsClassification.get(0).getLibelleEtat()), BorderLayout.SOUTH);
+		panelGlobalHorsClassification.add(panelEtatFraisHorsClassification, BorderLayout.SOUTH);
 
 		// Instanciation de l'affichage du bouton
 		panelBouton.setLayout(new FlowLayout());
@@ -263,9 +283,23 @@ public class FenetreFiche extends JFrame implements ActionListener {
 			dispose();
 		}
 		
-		if(event.getSource() == listeEtatFrais){
-			System.out.println(listeEtatFrais.getSelectedItem());
+		if(event.getSource() == validerFiche){
+			ArrayList<FraisHorsForfait>validHorsForfait = new ArrayList<FraisHorsForfait>();
+			//System.out.println(tableHorsForfait.getValueAt(0, 2));
+			for(int i = 0 ; i < tableHorsForfait.getRowCount() ; i++){
+				for(int j = 0 ; j < tableHorsForfait.getColumnCount() ; j++){
+					
+				}
+				String dateHorsForfait = (String) tableHorsForfait.getValueAt(i, 0);
+				String libelleHorsForfait = (String) tableHorsForfait.getValueAt(i, 1);
+				String montantHorsForfait = (String) tableHorsForfait.getValueAt(i, 2);
+				String newSituationHorsForfait = (String) tableHorsForfait.getValueAt(i, 4);
+				System.out.println(dateHorsForfait+" "+libelleHorsForfait+" "+montantHorsForfait+" "+newSituationHorsForfait);
+				System.out.println("\n");
+			}
 		}
+		
+		
 	}
 
 }

@@ -1,7 +1,6 @@
 package gsb_frais;
 
 import java.util.Date;
-import java.sql.*;
 
 public class HorsClassification {
 	private String idVisiteur;

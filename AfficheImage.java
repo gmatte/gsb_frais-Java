@@ -1,8 +1,10 @@
 package gsb_frais;
 
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JPanel;
 
 class AfficheImage extends JPanel{
     // Déclaration de la propriété fond de type Image
